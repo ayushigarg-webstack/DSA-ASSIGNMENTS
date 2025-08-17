@@ -63,9 +63,11 @@ void deleteElement()
     n--;
 }
 
-void linearSearch() {
+void linearSearch() 
+{
     int key, flag = 0;
-    cout << "Enter element to search: "; cin >> key;
+    cout << "Enter element to search: "; 
+    cin >> key;
     for (int i = 0; i < n; i++) 
     {
         if (arr[i] == key) 
@@ -102,4 +104,5 @@ int main()
     } while(choice != 6);
     return 0;
 }
+
 
