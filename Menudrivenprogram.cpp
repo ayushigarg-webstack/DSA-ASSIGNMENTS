@@ -1,9 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#define SIZE 100
-
-int arr[SIZE], n = 0;
+int arr[100], n = 0;
 
 void create() 
 {
@@ -104,3 +102,4 @@ int main()
     } while(choice != 6);
     return 0;
 }
+
