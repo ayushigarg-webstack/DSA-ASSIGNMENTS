@@ -1,0 +1,93 @@
+#include <iostream>
+using namespace std;
+
+#define MAX 1000
+
+class SpecialStack {
+    int arr[MAX];
+    int top;
+    int minEle;
+
+public:
+    SpecialStack() {
+        top = -1;
+        minEle = 0;
+    }
+
+    bool isEmpty() { return top == -1; }
+    bool isFull() { return top == MAX - 1; }
+
+    void push(int x) {
+        if (isFull()) {
+            cout << "Stack Overflow\n";
+            return;
+        }
+
+        if (isEmpty()) {
+            top++;
+            arr[top] = x;
+            minEle = x;
+        } else if (x >= minEle) {
+            arr[++top] = x;
+        } else {
+            // encode the new minimum
+            int modifiedValue = 2 * x - minEle;
+            arr[++top] = modifiedValue;
+            minEle = x;
+        }
+    }
+
+    int pop() {
+        if (isEmpty()) {
+            cout << "Stack Underflow\n";
+            return -1;
+        }
+
+        int y = arr[top--];
+
+        if (y >= minEle) {
+            return y; // normal pop
+        } else {
+            // y was a modified value
+            int originalMin = minEle;
+            minEle = 2 * minEle - y; // restore previous min
+            return originalMin;
+        }
+    }
+
+    int getMin() {
+        if (isEmpty()) {
+            cout << "Stack is empty\n";
+            return -1;
+        }
+        return minEle;
+    }
+
+    int peek() {
+        if (isEmpty()) {
+            cout << "Stack is empty\n";
+            return -1;
+        }
+
+        int y = arr[top];
+        if (y >= minEle)
+            return y;
+        else
+            return minEle;
+    }
+};
+
+int main() {
+    SpecialStack s;
+    s.push(5);
+    s.push(3);
+    s.push(7);
+    s.push(2);
+    cout << "Current Min: " << s.getMin() << endl;
+    cout << "Popped: " << s.pop() << endl;
+    cout << "Current Min: " << s.getMin() << endl;
+    cout << "Popped: " << s.pop() << endl;
+    cout << "Current Min: " << s.getMin() << endl;
+    cout << "Top Element: " << s.peek() << endl;
+    return 0;
+}
