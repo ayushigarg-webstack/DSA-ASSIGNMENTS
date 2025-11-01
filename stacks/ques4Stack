@@ -1,0 +1,37 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int* dailyTemperatures(int temperatures[], int n) {
+    int* answer = new int[n]; 
+    for (int i = 0; i < n; i++)
+        answer[i] = 0;
+
+    stack<int> st;
+
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && temperatures[i] > temperatures[st.top()]) {
+            int idx = st.top();
+            st.pop();
+            answer[idx] = i - idx; 
+        }
+        st.push(i);
+    }
+
+    return answer;
+}
+
+int main() {
+    int temperatures[] = {73, 74, 75, 71, 69, 72, 76, 73};
+    int n = sizeof(temperatures) / sizeof(temperatures[0]);
+
+    int* result = dailyTemperatures(temperatures, n);
+
+    cout << "Result: ";
+    for (int i = 0; i < n; i++)
+        cout << result[i] << " ";
+    cout << endl;
+
+    delete[] result;
+    return 0;
+}
