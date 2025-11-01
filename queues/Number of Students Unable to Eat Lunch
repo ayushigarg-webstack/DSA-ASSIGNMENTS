@@ -1,0 +1,44 @@
+#include <iostream>
+#include <queue>
+#include <stack>
+using namespace std;
+
+int countStudents(vector<int> &students, vector<int> &sandwiches)
+{
+    queue<int> q;
+    for (int s : students)
+        q.push(s);
+
+    int index = 0;   // To track the top of sandwiches
+    int count = 0;   // Count of consecutive students who didn’t take sandwich
+
+    while (!q.empty() && count < q.size())
+    {
+        if (q.front() == sandwiches[index])
+        {
+            // Student takes the sandwich
+            q.pop();
+            index++;
+            count = 0; // reset count since sandwich taken
+        }
+        else
+        {
+            // Student moves to end of queue
+            q.push(q.front());
+            q.pop();
+            count++; // increase number of failed attempts
+        }
+    }
+
+    return q.size(); // students unable to eat
+}
+
+int main()
+{
+    vector<int> students = {1, 1, 0, 0};
+    vector<int> sandwiches = {0, 1, 0, 1};
+
+    cout << countStudents(students, sandwiches);
+
+    return 0;
+}
