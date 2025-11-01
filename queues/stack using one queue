@@ -1,0 +1,96 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+class StackUsingOneQueue {
+    queue<int> q;
+
+public:
+    // Push operation
+    void push(int x) {
+        int size = q.size();
+        q.push(x);
+
+        // Rotate previous elements behind the new element
+        for (int i = 0; i < size; i++) {
+            q.push(q.front());
+            q.pop();
+        }
+        cout << x << " pushed successfully!" << endl;
+    }
+
+    // Pop operation
+    void pop() {
+        if (q.empty()) {
+            cout << "Stack is empty!" << endl;
+            return;
+        }
+        cout << q.front() << " popped successfully!" << endl;
+        q.pop();
+    }
+
+    // Peek (top element)
+    void top() {
+        if (q.empty()) {
+            cout << "Stack is empty!" << endl;
+            return;
+        }
+        cout << "Top element: " << q.front() << endl;
+    }
+
+    // Check if stack is empty
+    bool isEmpty() {
+        return q.empty();
+    }
+
+    // Display stack elements
+    void display() {
+        if (q.empty()) {
+            cout << "Stack is empty!" << endl;
+            return;
+        }
+        queue<int> temp = q;
+        cout << "Stack elements (top to bottom): ";
+        while (!temp.empty()) {
+            cout << temp.front() << " ";
+            temp.pop();
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    StackUsingOneQueue s;
+    int choice, val;
+
+    do {
+        cout << "\n--- STACK USING ONE QUEUE ---\n";
+        cout << "1. Push\n2. Pop\n3. Top\n4. Display\n5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to push: ";
+                cin >> val;
+                s.push(val);
+                break;
+            case 2:
+                s.pop();
+                break;
+            case 3:
+                s.top();
+                break;
+            case 4:
+                s.display();
+                break;
+            case 5:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice!\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}
