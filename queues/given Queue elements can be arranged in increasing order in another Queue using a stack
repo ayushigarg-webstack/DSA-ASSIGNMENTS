@@ -1,0 +1,60 @@
+#include <iostream>
+#include <queue>
+#include <stack>
+using namespace std;
+
+bool checkSorted(queue<int> q)
+{
+    stack<int> s;
+    int expected = 1; // smallest number expected next
+    int n = q.size();
+
+    while (!q.empty())
+    {
+        int front = q.front();
+        q.pop();
+
+        // If front matches expected number
+        if (front == expected)
+        {
+            expected++;
+        }
+        else
+        {
+            // If stack is not empty and top is smaller than current element, sorting impossible
+            if (!s.empty() && s.top() < front)
+                return false;
+
+            s.push(front);
+        }
+
+        // Check if top of stack can be popped to maintain order
+        while (!s.empty() && s.top() == expected)
+        {
+            s.pop();
+            expected++;
+        }
+    }
+
+    // After queue empty, check remaining stack
+    while (!s.empty() && s.top() == expected)
+    {
+        s.pop();
+        expected++;
+    }
+
+    // If all elements arranged properly
+    return (expected - 1 == n);
+}
+
+int main()
+{
+    queue<int> q;
+    q.push(5);
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.push(4);
+
+    if (checkSorted(q))
+        cout << "Ye
