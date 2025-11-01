@@ -1,0 +1,36 @@
+#include <iostream>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+bool isPossible(int A[], int n) {
+    stack<int> S;
+    int B_index = 0; 
+    int sortedA[n];
+
+    
+    for (int i = 0; i < n; i++)
+        sortedA[i] = A[i];
+    sort(sortedA, sortedA + n);
+
+    for (int i = 0; i < n; i++) {
+        S.push(A[i]);
+        while (!S.empty() && S.top() == sortedA[B_index]) {
+            S.pop();
+            B_index++;
+        }
+    }
+    return S.empty();
+}
+
+int main() {
+    int A[] = {3, 1, 2};
+    int n = sizeof(A) / sizeof(A[0]);
+
+    if (isPossible(A, n))
+        cout << "YES, possible to make B sorted." << endl;
+    else
+        cout << "NO, not possible to make B sorted." << endl;
+
+    return 0;
+}
